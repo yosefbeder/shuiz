@@ -1,0 +1,111 @@
+[
+	{
+		"id": "dIDOGuYXLm",
+		"title": "Javascript interview questions",
+		"description": "The place that will allow you to pass any technical interview without even thinking!",
+		"questions": [
+			{
+				"id": "-i7afM7h9Q",
+				"type": "true-false",
+				"answer": true,
+				"title": "Is React created by Facebook?",
+				"tags": ["easy", "frameworks"]
+			}
+		]
+	},
+	{
+		"id": "mgwEbR5vw6",
+		"title": "Master javascript theory",
+		"description": "Want to know how does javascript work behind the scense, You probably find the best place!",
+		"questions": [
+			{
+				"id": "eqoB1A_pzF",
+				"type": "true-false",
+				"answer": true,
+				"title": "Is React created by Facebook?",
+				"description": "React is now the world's leading frontend library and I assume that knowing the name of the company behind it is important.",
+				"tags": ["easy", "frameworks"]
+			},
+			{
+				"id": "eaLG2fqBj9",
+				"type": "multiple-choice",
+				"title": "Which company developed JavaScript?",
+				"hint": "It's the company that developed the first browser",
+				"choices": [
+					{ "id": "a-1", "value": "Google" },
+					{ "id": "a-2", "value": "Mozella" },
+					{ "id": "a-3", "value": "Facebook" },
+					{ "id": "a-4", "value": "Netscape" }
+				],
+				"answers": ["a-4"],
+				"tags": ["medium", "history"]
+			},
+			{
+				"id": "H-0TZpCDHl",
+				"type": "multiple-choice",
+				"title": "How can you loop through an array?",
+				"description": "Looping is a fundamental programing concept and you should know how to do it.",
+				"choices": [
+					{ "id": "b-1", "value": "For" },
+					{ "id": "b-2", "value": "While" },
+					{ "id": "b-3", "value": "Do-for" },
+					{ "id": "b-4", "value": "Do-while" }
+				],
+				"answers": ["b-1", "b-2", "b-4"],
+				"tags": ["easy", "fundamentals"]
+			},
+			{
+				"id": "Yoi7XWBKlw",
+				"type": "multiple-choice",
+				"title": "What does continue do?",
+				"description": "The advantage of using for loops over `Array.prototype.forEach` is that it allows you to use `break` and `continue`, but why do we need them.",
+				"choices": [
+					{ "id": "c-1", "value": "Breaks the loop." },
+					{
+						"id": "c-2",
+						"value": "Breaks the current iteration and transfers to the other without continuing the code in the current iteration."
+					}
+				],
+				"answers": ["c-1"],
+				"tags": ["hard", "advanced"]
+			},
+			{
+				"id": "u6dkCEt2CW",
+				"type": "fill-in-the-blanks",
+				"title": "is the most loved javascript framework, while is the most used.",
+				"tags": ["easy", "frameworks"],
+				"hint": "The answer of this question is based on the stackoverflow servey for 2021",
+				"blanks": [
+					{ "position": 0, "answers": ["Svelte", "svelte"] },
+					{ "position": 7, "answers": ["React", "react"] }
+				]
+			}
+		]
+	},
+	{
+		"id": "gwbx9gOVoK",
+		"title": "CSS tricky parts",
+		"description": "Want to master CSS, you're in the right place!",
+		"questions": [
+			{
+				"id": "oFK_Gvbh8Z",
+				"type": "true-false",
+				"answer": true,
+				"title": "Is styled-components used to style React apps",
+				"tags": ["easy", "frameworks"]
+			},
+			{
+				"id": "wH2xN1lvtV",
+				"type": "multiple-choice",
+				"answers": ["1"],
+				"title": "How do we style web apps?",
+				"choices": [
+					{ "id": "1", "value": "CSS" },
+					{ "id": "2", "value": "Figma" },
+					{ "id": "3", "value": "Paint" }
+				],
+				"tags": ["easy"]
+			}
+		]
+	}
+]
