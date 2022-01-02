@@ -1,6 +1,6 @@
 import DUMMY_DATA from '../dummy-data.json';
 import { H2, P1, P2 } from '@yosefbeder/design-system/typography';
-import Question from '../components/Question';
+import Question from '../components/Question/index.js';
 
 export const getStaticPaths = () => {
 	return {

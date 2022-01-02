@@ -20,6 +20,7 @@ import { HiOutlineInformationCircle as HintIcon } from 'react-icons/hi';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import hljs from 'highlight.js/lib/common';
 import 'highlight.js/styles/atom-one-light.css';
+import TrueFalse from './TrueFalse';
 
 const Container = styled.article`
 	margin: var(--space-8) 0;
@@ -39,7 +40,7 @@ const Tag = styled(P2)`
 
 	${({ children }) => {
 		const map = new Map([
-			['easy', 'lime'],
+			['easy', 'green'],
 			['medium', 'amber'],
 			['hard', 'red'],
 		]);
@@ -136,6 +137,8 @@ const Question = ({ number, type, title, blanks, hint, tags, description }) => {
 					{description}
 				</ReactMarkdown>
 			)}
+
+			{type === 'true-false' && <TrueFalse />}
 		</Container>
 	);
 };
