@@ -31,7 +31,7 @@
 				"type": "multiple-choice",
 				"title": "Which company developed JavaScript?",
 				"hint": "It's the company that developed the first browser",
-				"choices": [
+				"options": [
 					{ "id": "a-1", "value": "Google" },
 					{ "id": "a-2", "value": "Mozella" },
 					{ "id": "a-3", "value": "Facebook" },
@@ -45,7 +45,7 @@
 				"type": "multiple-choice",
 				"title": "How can you loop through an array?",
 				"description": "Looping is a fundamental programing concept and you should know how to do it.",
-				"choices": [
+				"options": [
 					{ "id": "b-1", "value": "For" },
 					{ "id": "b-2", "value": "While" },
 					{ "id": "b-3", "value": "Do-for" },
@@ -59,7 +59,7 @@
 				"type": "multiple-choice",
 				"title": "What does continue do?",
 				"description": "# Description\nThe advantage of using for loops over `Array.prototype.forEach` is that it allows you to use `break` and `continue`, but why do we need them.\n# Notes\nIf you don't now that you won't get accepted bear that in mind!\n```js\nconst name = \"yosef\";\nconst state = \"umemployed\"\n```",
-				"choices": [
+				"options": [
 					{ "id": "c-1", "value": "Breaks the loop." },
 					{
 						"id": "c-2",
@@ -99,7 +99,7 @@
 				"type": "multiple-choice",
 				"answers": ["1"],
 				"title": "How do we style web apps?",
-				"choices": [
+				"options": [
 					{ "id": "1", "value": "CSS" },
 					{ "id": "2", "value": "Figma" },
 					{ "id": "3", "value": "Paint" }

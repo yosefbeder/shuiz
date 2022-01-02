@@ -21,6 +21,7 @@ import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import hljs from 'highlight.js/lib/common';
 import 'highlight.js/styles/atom-one-light.css';
 import TrueFalse from './TrueFalse';
+import MultipleChoice from './MultipleChoice';
 
 const Container = styled.article`
 	margin: var(--space-8) 0;
@@ -73,7 +74,17 @@ const TagsContainer = styled.section`
 	}
 `;
 
-const Question = ({ number, type, title, blanks, hint, tags, description }) => {
+const Question = ({
+	number,
+	type,
+	title,
+	blanks,
+	hint,
+	tags,
+	description,
+	options,
+	answers,
+}) => {
 	useEffect(() => {
 		hljs.highlightAll();
 	}, []);
@@ -139,6 +150,9 @@ const Question = ({ number, type, title, blanks, hint, tags, description }) => {
 			)}
 
 			{type === 'true-false' && <TrueFalse />}
+			{type === 'multiple-choice' && (
+				<MultipleChoice options={options} answers={answers} />
+			)}
 		</Container>
 	);
 };
