@@ -93,7 +93,7 @@ const Question = ({
 	return (
 		<Container>
 			<H3>
-				#{number}{' '}
+				#{number} -{' '}
 				{type === 'fill-in-the-blanks'
 					? title
 							.split(' ')
