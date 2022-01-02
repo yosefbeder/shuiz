@@ -22,6 +22,7 @@ import hljs from 'highlight.js/lib/common';
 import 'highlight.js/styles/atom-one-light.css';
 import TrueFalse from './TrueFalse';
 import MultipleChoice from './MultipleChoice';
+import FillInTheBlanks from './FillInTheBlanks';
 
 const Container = styled.article`
 	margin: var(--space-8) 0;
@@ -153,6 +154,7 @@ const Question = ({
 			{type === 'multiple-choice' && (
 				<MultipleChoice options={options} answers={answers} />
 			)}
+			{type === 'fill-in-the-blanks' && <FillInTheBlanks blanks={blanks} />}
 		</Container>
 	);
 };
