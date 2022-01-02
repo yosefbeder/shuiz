@@ -58,7 +58,7 @@
 				"id": "Yoi7XWBKlw",
 				"type": "multiple-choice",
 				"title": "What does continue do?",
-				"description": "The advantage of using for loops over `Array.prototype.forEach` is that it allows you to use `break` and `continue`, but why do we need them.",
+				"description": "# Description\nThe advantage of using for loops over `Array.prototype.forEach` is that it allows you to use `break` and `continue`, but why do we need them.\n# Notes\nIf you don't now that you won't get accepted bear that in mind!\n```js\nconst name = \"yosef\";\nconst state = \"umemployed\"\n```",
 				"choices": [
 					{ "id": "c-1", "value": "Breaks the loop." },
 					{

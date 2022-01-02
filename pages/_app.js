@@ -1,4 +1,7 @@
 import '@yosefbeder/design-system/index.css';
+import '@yosefbeder/design-system/colors/lime.css';
+import '@yosefbeder/design-system/colors/amber.css';
+import '@yosefbeder/design-system/colors/red.css';
 import Layout from '../components/Layout';
 
 export default function App({ Component, pageProps }) {
