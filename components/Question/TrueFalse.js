@@ -9,7 +9,8 @@ const TrueButton = styled(Button)`
 		background-color: var(--color-green-400);
 		border-color: var(--color-green-400);
 
-		&:hover {
+		&:hover,
+		&:focus {
 			background-color: var(--color-green-500);
 			border-color: var(--color-green-500);
 		}
@@ -26,7 +27,8 @@ const FalseButton = styled(Button)`
 		background-color: var(--color-red-400);
 		border-color: var(--color-red-400);
 
-		&:hover {
+		&:hover,
+		&:focus {
 			background-color: var(--color-red-500);
 			border-color: var(--color-red-500);
 		}
