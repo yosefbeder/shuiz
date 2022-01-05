@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button } from '@yosefbeder/design-system/components';
 import { P2, InlineCode } from '@yosefbeder/design-system/typography';
 import { HiCheck as TrueIcon, HiX as FalseIcon } from 'react-icons/hi';
+import { ButtonsGroup } from '..';
 
 const TrueButton = styled(Button)`
 	&:enabled {
@@ -40,14 +41,6 @@ const FalseButton = styled(Button)`
 	}
 `;
 
-const ButtonGroup = styled.section`
-	display: flex;
-
-	& > ${TrueButton},& > ${FalseButton} {
-		margin-right: var(--space-2);
-	}
-`;
-
 const TrueFalse = () => {
 	const [selectedAnswer, setSelectedAnswer] = useState();
 
@@ -59,7 +52,7 @@ const TrueFalse = () => {
 					answer.
 				</P2>
 			)}
-			<ButtonGroup>
+			<ButtonsGroup>
 				<TrueButton
 					leftIcon={<TrueIcon size={20} />}
 					onClick={() => setSelectedAnswer('True')}
@@ -72,7 +65,7 @@ const TrueFalse = () => {
 				>
 					False
 				</FalseButton>
-			</ButtonGroup>
+			</ButtonsGroup>
 		</>
 	);
 };
