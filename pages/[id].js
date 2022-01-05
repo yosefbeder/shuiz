@@ -7,6 +7,9 @@ import {
 	HiOutlineCheck as CheckIcon,
 	HiOutlineDuplicate as ForkIcon,
 } from 'react-icons/hi';
+import hljs from 'highlight.js/lib/common';
+import 'highlight.js/styles/atom-one-light.css';
+import { useEffect } from 'react';
 
 export const getStaticPaths = () => {
 	return {
@@ -22,6 +25,10 @@ export const getStaticProps = ({ params: { id } }) => {
 };
 
 const Quiz = ({ id, title, description, questions }) => {
+	useEffect(() => {
+		hljs.highlightAll();
+	}, []);
+
 	return (
 		<>
 			<P2>{id}</P2>

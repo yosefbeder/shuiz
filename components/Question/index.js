@@ -18,8 +18,6 @@ import {
 import { Tooltip } from '@yosefbeder/design-system/components';
 import { HiOutlineInformationCircle as HintIcon } from 'react-icons/hi';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
-import hljs from 'highlight.js/lib/common';
-import 'highlight.js/styles/atom-one-light.css';
 import TrueFalse from './TrueFalse';
 import MultipleChoice from './MultipleChoice';
 import FillInTheBlanks from './FillInTheBlanks';
@@ -86,10 +84,6 @@ const Question = ({
 	options,
 	answers,
 }) => {
-	useEffect(() => {
-		hljs.highlightAll();
-	}, []);
-
 	return (
 		<Container>
 			<H3>
