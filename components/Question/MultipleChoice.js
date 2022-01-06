@@ -1,33 +1,70 @@
+import { useState, useEffect } from 'react';
 import { Checkbox, RadioGroup } from '@yosefbeder/design-system/components';
-import { useState } from 'react';
+import { Container, Header } from './shared-components';
 
-const SingleAnswer = ({ options, answer }) => {
-	const [selectedValue, setSelectedValue] = useState();
+const MultipleChoice = ({
+	id,
+	number,
+	title,
+	description,
+	tags,
+	hint,
+	answers: correctAnswers,
+	options,
+}) => {
+	const [answers, setAnswers] = useState(
+		options.map(option => ({ ...option, selected: false })),
+	);
 
 	return (
-		<RadioGroup
-			options={options.map(({ id, value }) => ({
-				label: value,
-				value: id,
-			}))}
-			onChange={id => setSelectedValue(id)}
-		/>
-	);
-};
-
-const MultipleAnswers = ({ options, answers }) => (
-	<form>
-		{options.map(({ id, value }) => (
-			<Checkbox key={id} label={value} />
-		))}
-	</form>
-);
-
-const MultipleChoice = ({ options, answers }) => {
-	return answers.length === 1 ? (
-		<SingleAnswer options={options} answer={answers[0]} />
-	) : (
-		<MultipleAnswers {...{ options, answers }} />
+		<Container>
+			<Header
+				number={number}
+				title={title}
+				description={description}
+				tags={tags}
+				hint={hint}
+			/>
+			{correctAnswers.length === 1 ? (
+				<RadioGroup
+					options={options}
+					onChange={value =>
+						setAnswers(prev => {
+							let index = prev.findIndex(answer => answer.value === value);
+							return [
+								...prev
+									.slice(0, index)
+									.map(answer => ({ ...answer, selected: false })),
+								{ ...prev[index], selected: !prev[index].selected },
+								...prev
+									.slice(index + 1)
+									.map(answer => ({ ...answer, selected: false })),
+							];
+						})
+					}
+				/>
+			) : (
+				options.map(option => (
+					<Checkbox
+						key={option.value}
+						checked={option.selected}
+						{...option}
+						onChange={value => {
+							setAnswers(prev => {
+								let index = prev.findIndex(
+									answer => answer.value === value.target.value,
+								);
+								return [
+									...prev.slice(0, index),
+									{ ...prev[index], selected: !prev[index].selected },
+									...prev.slice(index + 1),
+								];
+							});
+						}}
+					/>
+				))
+			)}
+		</Container>
 	);
 };
 

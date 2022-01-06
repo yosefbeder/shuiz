@@ -8,3 +8,9 @@ export const ButtonsGroup = styled.section`
 		margin-right: var(--space-2);
 	}
 `;
+
+export const Pre = styled.pre`
+	line-height: 1.5;
+	font-family: var(--font-mono);
+	font-size: var(--font-sm);
+`;

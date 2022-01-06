@@ -4,6 +4,7 @@ import { Button } from '@yosefbeder/design-system/components';
 import { P2, InlineCode } from '@yosefbeder/design-system/typography';
 import { HiCheck as TrueIcon, HiX as FalseIcon } from 'react-icons/hi';
 import { ButtonsGroup } from '..';
+import { Container, Header } from './shared-components';
 
 const TrueButton = styled(Button)`
 	&:enabled {
@@ -41,32 +42,47 @@ const FalseButton = styled(Button)`
 	}
 `;
 
-const TrueFalse = () => {
-	const [selectedAnswer, setSelectedAnswer] = useState();
+const TrueFalse = ({
+	id,
+	number,
+	title,
+	description,
+	tags,
+	hint,
+	answer: correctAnswer,
+}) => {
+	const [answer, setAnswer] = useState();
 
 	return (
-		<>
-			{selectedAnswer && (
+		<Container>
+			<Header
+				number={number}
+				title={title}
+				description={description}
+				tags={tags}
+				hint={hint}
+			/>
+			{answer !== undefined && (
 				<P2>
-					<InlineCode>{selectedAnswer}</InlineCode> is the currently selected
-					answer.
+					<InlineCode>{answer ? 'True' : 'False'}</InlineCode> is the currently
+					selected answer.
 				</P2>
 			)}
 			<ButtonsGroup>
 				<TrueButton
 					leftIcon={<TrueIcon size={20} />}
-					onClick={() => setSelectedAnswer('True')}
+					onClick={() => setAnswer(true)}
 				>
 					True
 				</TrueButton>
 				<FalseButton
 					leftIcon={<FalseIcon size={20} />}
-					onClick={() => setSelectedAnswer('False')}
+					onClick={() => setAnswer(false)}
 				>
 					False
 				</FalseButton>
 			</ButtonsGroup>
-		</>
+		</Container>
 	);
 };
 

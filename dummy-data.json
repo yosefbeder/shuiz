@@ -32,10 +32,10 @@
 				"title": "Which company developed JavaScript?",
 				"hint": "It's the company that developed the first browser",
 				"options": [
-					{ "id": "a-1", "value": "Google" },
-					{ "id": "a-2", "value": "Mozella" },
-					{ "id": "a-3", "value": "Facebook" },
-					{ "id": "a-4", "value": "Netscape" }
+					{ "value": "a-1", "label": "Google" },
+					{ "value": "a-2", "label": "Mozella" },
+					{ "value": "a-3", "label": "Facebook" },
+					{ "value": "a-4", "label": "Netscape" }
 				],
 				"answers": ["a-4"],
 				"tags": ["medium", "history"]
@@ -46,10 +46,10 @@
 				"title": "How can you loop through an array?",
 				"description": "Looping is a fundamental programing concept and you should know how to do it.",
 				"options": [
-					{ "id": "b-1", "value": "For" },
-					{ "id": "b-2", "value": "While" },
-					{ "id": "b-3", "value": "Do-for" },
-					{ "id": "b-4", "value": "Do-while" }
+					{ "value": "b-1", "label": "For" },
+					{ "value": "b-2", "label": "While" },
+					{ "value": "b-3", "label": "Do-for" },
+					{ "value": "b-4", "label": "Do-while" }
 				],
 				"answers": ["b-1", "b-2", "b-4"],
 				"tags": ["easy", "fundamentals"]
@@ -60,10 +60,10 @@
 				"title": "What does continue do?",
 				"description": "# Description\nThe advantage of using for loops over `Array.prototype.forEach` is that it allows you to use `break` and `continue`, but why do we need them.\n# Notes\nIf you don't now that you won't get accepted bear that in mind!\n```js\nconst name = \"yosef\";\nconst state = \"umemployed\"\n```",
 				"options": [
-					{ "id": "c-1", "value": "Breaks the loop." },
+					{ "value": "c-1", "label": "Breaks the loop." },
 					{
-						"id": "c-2",
-						"value": "Breaks the current iteration and transfers to the other without continuing the code in the current iteration."
+						"value": "c-2",
+						"label": "Breaks the current iteration and transfers to the other without continuing the code in the current iteration."
 					}
 				],
 				"answers": ["c-1"],
@@ -100,9 +100,9 @@
 				"answers": ["1"],
 				"title": "How do we style web apps?",
 				"options": [
-					{ "id": "1", "value": "CSS" },
-					{ "id": "2", "value": "Figma" },
-					{ "id": "3", "value": "Paint" }
+					{ "value": "1", "label": "CSS" },
+					{ "value": "2", "label": "Figma" },
+					{ "value": "3", "label": "Paint" }
 				],
 				"tags": ["easy"]
 			}
