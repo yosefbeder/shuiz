@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from '@yosefbeder/design-system/components';
 import { P2, InlineCode } from '@yosefbeder/design-system/typography';
@@ -50,8 +50,13 @@ const TrueFalse = ({
 	tags,
 	hint,
 	answer: correctAnswer,
+	onChange,
 }) => {
 	const [answer, setAnswer] = useState();
+
+	useEffect(() => {
+		onChange({ answer, correctAnswer });
+	}, [answer]);
 
 	return (
 		<Container>

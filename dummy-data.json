@@ -32,12 +32,11 @@
 				"title": "Which company developed JavaScript?",
 				"hint": "It's the company that developed the first browser",
 				"options": [
-					{ "value": "a-1", "label": "Google" },
-					{ "value": "a-2", "label": "Mozella" },
-					{ "value": "a-3", "label": "Facebook" },
-					{ "value": "a-4", "label": "Netscape" }
+					{ "value": "a-1", "label": "Google", "correct": false },
+					{ "value": "a-2", "label": "Mozella", "correct": false },
+					{ "value": "a-3", "label": "Facebook", "correct": false },
+					{ "value": "a-4", "label": "Netscape", "correct": true }
 				],
-				"answers": ["a-4"],
 				"tags": ["medium", "history"]
 			},
 			{
@@ -46,12 +45,11 @@
 				"title": "How can you loop through an array?",
 				"description": "Looping is a fundamental programing concept and you should know how to do it.",
 				"options": [
-					{ "value": "b-1", "label": "For" },
-					{ "value": "b-2", "label": "While" },
-					{ "value": "b-3", "label": "Do-for" },
-					{ "value": "b-4", "label": "Do-while" }
+					{ "value": "b-1", "label": "For", "correct": true },
+					{ "value": "b-2", "label": "While", "correct": true },
+					{ "value": "b-3", "label": "Do-for", "correct": true },
+					{ "value": "b-4", "label": "Do-while", "correct": false }
 				],
-				"answers": ["b-1", "b-2", "b-4"],
 				"tags": ["easy", "fundamentals"]
 			},
 			{
@@ -60,13 +58,13 @@
 				"title": "What does continue do?",
 				"description": "# Description\nThe advantage of using for loops over `Array.prototype.forEach` is that it allows you to use `break` and `continue`, but why do we need them.\n# Notes\nIf you don't now that you won't get accepted bear that in mind!\n```js\nconst name = \"yosef\";\nconst state = \"umemployed\"\n```",
 				"options": [
-					{ "value": "c-1", "label": "Breaks the loop." },
+					{ "value": "c-1", "label": "Breaks the loop.", "correct": false },
 					{
 						"value": "c-2",
-						"label": "Breaks the current iteration and transfers to the other without continuing the code in the current iteration."
+						"label": "Breaks the current iteration and transfers to the other without continuing the code in the current iteration.",
+						"correct": true
 					}
 				],
-				"answers": ["c-1"],
 				"tags": ["hard", "advanced"]
 			},
 			{
@@ -97,12 +95,11 @@
 			{
 				"id": "wH2xN1lvtV",
 				"type": "multiple-choice",
-				"answers": ["1"],
 				"title": "How do we style web apps?",
 				"options": [
-					{ "value": "1", "label": "CSS" },
-					{ "value": "2", "label": "Figma" },
-					{ "value": "3", "label": "Paint" }
+					{ "value": "1", "label": "CSS", "correct": true },
+					{ "value": "2", "label": "Figma", "correct": false },
+					{ "value": "3", "label": "Paint", "correct": false }
 				],
 				"tags": ["easy"]
 			}

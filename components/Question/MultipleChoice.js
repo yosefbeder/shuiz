@@ -1,20 +1,24 @@
 import { useState, useEffect } from 'react';
 import { Checkbox, RadioGroup } from '@yosefbeder/design-system/components';
 import { Container, Header } from './shared-components';
+import { turnToAnswer } from '../../utils';
 
 const MultipleChoice = ({
 	id,
+	type,
 	number,
 	title,
 	description,
 	tags,
 	hint,
-	answers: correctAnswers,
 	options,
+	onChange,
 }) => {
-	const [answers, setAnswers] = useState(
-		options.map(option => ({ ...option, selected: false })),
-	);
+	const [answers, setAnswers] = useState(turnToAnswer({ type, options }));
+
+	useEffect(() => {
+		onChange(answers);
+	}, [answers]);
 
 	return (
 		<Container>
@@ -25,7 +29,7 @@ const MultipleChoice = ({
 				tags={tags}
 				hint={hint}
 			/>
-			{correctAnswers.length === 1 ? (
+			{options.filter(({ correct }) => correct).length === 1 ? (
 				<RadioGroup
 					options={options}
 					onChange={value =>

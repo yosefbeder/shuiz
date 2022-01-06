@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input } from '@yosefbeder/design-system/components';
 import styled from 'styled-components';
 import { Container, Header } from './shared-components';
+import { turnToAnswer } from '../../utils';
 
 const Form = styled.form`
 	display: grid;
@@ -12,20 +13,20 @@ const Form = styled.form`
 
 const FillInTheBlanks = ({
 	id,
+	type,
 	number,
 	title,
 	description,
 	tags,
 	hint,
 	blanks,
+	onChange,
 }) => {
-	let [answers, setAnswers] = useState(
-		blanks.map(blank => ({
-			position: blank.position,
-			correctAnswers: blank.answers,
-			answer: '',
-		})),
-	);
+	let [answers, setAnswers] = useState(turnToAnswer({ type, blanks }));
+
+	useEffect(() => {
+		onChange(answers);
+	}, [answers]);
 
 	return (
 		<Container>

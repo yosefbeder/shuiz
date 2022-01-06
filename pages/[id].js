@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import DUMMY_DATA from '../dummy-data.json';
 import { H2, P1, P2 } from '@yosefbeder/design-system/typography';
 import {
@@ -13,7 +14,7 @@ import {
 } from 'react-icons/hi';
 import hljs from 'highlight.js/lib/common';
 import 'highlight.js/styles/atom-one-light.css';
-import { useEffect } from 'react';
+import { turnToAnswer } from '../utils';
 
 export const getStaticPaths = () => {
 	return {
@@ -29,6 +30,12 @@ export const getStaticProps = ({ params: { id } }) => {
 };
 
 const Quiz = ({ id, title, description, questions }) => {
+	const [answers, setAnswers] = useState(
+		questions.map(question => turnToAnswer(question)),
+	);
+
+	console.log(answers);
+
 	useEffect(() => {
 		hljs.highlightAll();
 	}, []);
@@ -42,7 +49,18 @@ const Quiz = ({ id, title, description, questions }) => {
 				switch (question.type) {
 					case 'true-false':
 						return (
-							<TrueFalse key={question.id} number={index + 1} {...question} />
+							<TrueFalse
+								key={question.id}
+								number={index + 1}
+								{...question}
+								onChange={state =>
+									setAnswers(prev => [
+										...prev.slice(0, index),
+										state,
+										...prev.slice(index + 1),
+									])
+								}
+							/>
 						);
 					case 'multiple-choice':
 						return (
@@ -50,6 +68,13 @@ const Quiz = ({ id, title, description, questions }) => {
 								key={question.id}
 								number={index + 1}
 								{...question}
+								onChange={state =>
+									setAnswers(prev => [
+										...prev.slice(0, index),
+										state,
+										...prev.slice(index + 1),
+									])
+								}
 							/>
 						);
 					case 'fill-in-the-blanks':
@@ -58,6 +83,13 @@ const Quiz = ({ id, title, description, questions }) => {
 								key={question.id}
 								number={index + 1}
 								{...question}
+								onChange={state =>
+									setAnswers(prev => [
+										...prev.slice(0, index),
+										state,
+										...prev.slice(index + 1),
+									])
+								}
 							/>
 						);
 				}
