@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import DUMMY_DATA from '../dummy-data.json';
 import { H2, P1, P2 } from '@yosefbeder/design-system/typography';
 import {
@@ -30,11 +30,7 @@ export const getStaticProps = ({ params: { id } }) => {
 };
 
 const Quiz = ({ id, title, description, questions }) => {
-	const [answers, setAnswers] = useState(
-		questions.map(question => turnToAnswer(question)),
-	);
-
-	console.log(answers);
+	const answers = useRef(questions.map(question => turnToAnswer(question)));
 
 	useEffect(() => {
 		hljs.highlightAll();
@@ -53,13 +49,7 @@ const Quiz = ({ id, title, description, questions }) => {
 								key={question.id}
 								number={index + 1}
 								{...question}
-								onChange={state =>
-									setAnswers(prev => [
-										...prev.slice(0, index),
-										state,
-										...prev.slice(index + 1),
-									])
-								}
+								onChange={state => (answers.current[index] = state)}
 							/>
 						);
 					case 'multiple-choice':
@@ -68,13 +58,7 @@ const Quiz = ({ id, title, description, questions }) => {
 								key={question.id}
 								number={index + 1}
 								{...question}
-								onChange={state =>
-									setAnswers(prev => [
-										...prev.slice(0, index),
-										state,
-										...prev.slice(index + 1),
-									])
-								}
+								onChange={state => (answers.current[index] = state)}
 							/>
 						);
 					case 'fill-in-the-blanks':
@@ -83,13 +67,7 @@ const Quiz = ({ id, title, description, questions }) => {
 								key={question.id}
 								number={index + 1}
 								{...question}
-								onChange={state =>
-									setAnswers(prev => [
-										...prev.slice(0, index),
-										state,
-										...prev.slice(index + 1),
-									])
-								}
+								onChange={state => (answers.current[index] = state)}
 							/>
 						);
 				}
