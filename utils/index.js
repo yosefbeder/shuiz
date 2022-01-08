@@ -1,14 +1,27 @@
-export const turnToAnswer = ({ type, ...props }) => {
+export const turnToAnswer = ({ id, type, ...props }) => {
 	switch (type) {
 		case 'true-false':
-			return { answer: undefined, correctAnswer: props.answer };
+			return {
+				id,
+				type,
+				answer: undefined,
+				correctAnswer: props.answer,
+			};
 		case 'multiple-choice':
-			return props.options.map(option => ({ ...option, selected: false }));
+			return {
+				id,
+				type,
+				fields: props.options.map(option => ({ ...option, selected: false })),
+			};
 		case 'fill-in-the-blanks':
-			return props.blanks.map(blank => ({
-				position: blank.position,
-				correctAnswers: blank.answers,
-				answer: '',
-			}));
+			return {
+				id,
+				type,
+				fields: props.blanks.map(blank => ({
+					position: blank.position,
+					correctAnswers: blank.answers,
+					answer: '',
+				})),
+			};
 	}
 };

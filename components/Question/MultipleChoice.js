@@ -14,11 +14,11 @@ const MultipleChoice = ({
 	options,
 	onChange,
 }) => {
-	const [answers, setAnswers] = useState(turnToAnswer({ type, options }));
+	const [state, setState] = useState(turnToAnswer({ id, type, options }));
 
 	useEffect(() => {
-		onChange(answers);
-	}, [answers]);
+		onChange(state);
+	}, [state]);
 
 	return (
 		<Container>
@@ -33,17 +33,23 @@ const MultipleChoice = ({
 				<RadioGroup
 					options={options}
 					onChange={value =>
-						setAnswers(prev => {
-							let index = prev.findIndex(answer => answer.value === value);
-							return [
-								...prev
-									.slice(0, index)
-									.map(answer => ({ ...answer, selected: false })),
-								{ ...prev[index], selected: !prev[index].selected },
-								...prev
-									.slice(index + 1)
-									.map(answer => ({ ...answer, selected: false })),
-							];
+						setState(prev => {
+							let index = prev.fields.findIndex(field => field.value === value);
+							return {
+								...prev,
+								fields: [
+									...prev.fields
+										.slice(0, index)
+										.map(field => ({ ...field, selected: false })),
+									{
+										...prev.fields[index],
+										selected: !prev.fields[index].selected,
+									},
+									...prev.fields
+										.slice(index + 1)
+										.map(field => ({ ...field, selected: false })),
+								],
+							};
 						})
 					}
 				/>
@@ -54,15 +60,21 @@ const MultipleChoice = ({
 						checked={option.selected}
 						{...option}
 						onChange={value => {
-							setAnswers(prev => {
-								let index = prev.findIndex(
-									answer => answer.value === value.target.value,
+							setState(prev => {
+								let index = prev.fields.findIndex(
+									field => field.value === value.target.value,
 								);
-								return [
-									...prev.slice(0, index),
-									{ ...prev[index], selected: !prev[index].selected },
-									...prev.slice(index + 1),
-								];
+								return {
+									...prev,
+									fields: [
+										...prev.fields.slice(0, index),
+										{
+											...prev.fields[index],
+											selected: !prev.fields[index].selected,
+										},
+										...prev.fields.slice(index + 1),
+									],
+								};
 							});
 						}}
 					/>

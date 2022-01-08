@@ -22,11 +22,11 @@ const FillInTheBlanks = ({
 	blanks,
 	onChange,
 }) => {
-	let [answers, setAnswers] = useState(turnToAnswer({ type, blanks }));
+	let [state, setState] = useState(turnToAnswer({ id, type, blanks }));
 
 	useEffect(() => {
-		onChange(answers);
-	}, [answers]);
+		onChange(state);
+	}, [state]);
 
 	return (
 		<Container>
@@ -53,14 +53,17 @@ const FillInTheBlanks = ({
 					<Input
 						key={index}
 						placeholder={`blank ${index + 1}`}
-						value={answers[index].answer}
+						value={state.fields[index].answer}
 						onChange={e =>
-							setAnswers(prev => {
-								return [
-									...prev.slice(0, index),
-									{ ...prev[index], answer: e.target.value },
-									...prev.slice(index + 1),
-								];
+							setState(prev => {
+								return {
+									...prev,
+									fields: [
+										...prev.fields.slice(0, index),
+										{ ...prev.fields[index], answer: e.target.value },
+										...prev.fields.slice(index + 1),
+									],
+								};
 							})
 						}
 					/>

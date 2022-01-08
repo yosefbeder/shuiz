@@ -5,6 +5,7 @@ import { P2, InlineCode } from '@yosefbeder/design-system/typography';
 import { HiCheck as TrueIcon, HiX as FalseIcon } from 'react-icons/hi';
 import { ButtonsGroup } from '..';
 import { Container, Header } from './shared-components';
+import { turnToAnswer } from '../../utils';
 
 const TrueButton = styled(Button)`
 	&:enabled {
@@ -44,19 +45,20 @@ const FalseButton = styled(Button)`
 
 const TrueFalse = ({
 	id,
+	type,
 	number,
 	title,
 	description,
 	tags,
 	hint,
-	answer: correctAnswer,
+	answer,
 	onChange,
 }) => {
-	const [answer, setAnswer] = useState();
+	const [state, setState] = useState(turnToAnswer({ id, type, answer }));
 
 	useEffect(() => {
-		onChange({ answer, correctAnswer });
-	}, [answer]);
+		onChange(state);
+	}, [state]);
 
 	return (
 		<Container>
@@ -67,22 +69,22 @@ const TrueFalse = ({
 				tags={tags}
 				hint={hint}
 			/>
-			{answer !== undefined && (
+			{state !== undefined && (
 				<P2>
-					<InlineCode>{answer ? 'True' : 'False'}</InlineCode> is the currently
+					<InlineCode>{state ? 'True' : 'False'}</InlineCode> is the currently
 					selected answer.
 				</P2>
 			)}
 			<ButtonsGroup>
 				<TrueButton
 					leftIcon={<TrueIcon size={20} />}
-					onClick={() => setAnswer(true)}
+					onClick={() => setState(prev => ({ ...prev, answer: true }))}
 				>
 					True
 				</TrueButton>
 				<FalseButton
 					leftIcon={<FalseIcon size={20} />}
-					onClick={() => setAnswer(false)}
+					onClick={() => setState(prev => ({ ...prev, answer: false }))}
 				>
 					False
 				</FalseButton>
