@@ -69,10 +69,10 @@ const TrueFalse = ({
 				tags={tags}
 				hint={hint}
 			/>
-			{state !== undefined && (
+			{state.answer !== undefined && (
 				<P2>
-					<InlineCode>{state ? 'True' : 'False'}</InlineCode> is the currently
-					selected answer.
+					<InlineCode>{state.answer ? 'True' : 'False'}</InlineCode> is the
+					currently selected answer.
 				</P2>
 			)}
 			<ButtonsGroup>
