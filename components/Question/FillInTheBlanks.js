@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input } from '@yosefbeder/design-system/components';
 import styled from 'styled-components';
 import { Container, Header } from './shared-components';
-import { turnToAnswer } from '../../utils';
+import { getTitleWithBlanks, turnToAnswer } from '../../utils';
 
 const Form = styled.form`
 	display: grid;
@@ -32,18 +32,7 @@ const FillInTheBlanks = ({
 		<Container>
 			<Header
 				number={number}
-				title={title
-					.split(' ')
-					.map((word, index) => {
-						let blankIndex = blanks.findIndex(
-							({ position }) => position === index,
-						);
-
-						return blankIndex !== -1
-							? `____(${blankIndex + 1})____ ${word}`
-							: word;
-					})
-					.join(' ')}
+				title={getTitleWithBlanks({ title, blanks })}
 				description={description}
 				tags={tags}
 				hint={hint}
@@ -52,7 +41,7 @@ const FillInTheBlanks = ({
 				{blanks.map((_, index) => (
 					<Input
 						key={index}
-						placeholder={`blank ${index + 1}`}
+						placeholder={`(${index + 1})`}
 						value={state.fields[index].answer}
 						onChange={e =>
 							setState(prev => {

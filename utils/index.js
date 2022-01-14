@@ -25,3 +25,13 @@ export const turnToAnswer = ({ id, type, ...props }) => {
 			};
 	}
 };
+
+export const getTitleWithBlanks = ({ title, blanks }) =>
+	title
+		.split(' ')
+		.map((word, index) => {
+			let blankIndex = blanks.findIndex(({ position }) => position === index);
+
+			return blankIndex !== -1 ? `____(${blankIndex + 1})____ ${word}` : word;
+		})
+		.join(' ');
