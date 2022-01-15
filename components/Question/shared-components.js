@@ -1,4 +1,3 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
 import { Tooltip } from '@yosefbeder/design-system/components';
 import { HiOutlineInformationCircle as HintIcon } from 'react-icons/hi';

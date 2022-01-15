@@ -1,25 +1,7 @@
-import { useState, useEffect } from 'react';
 import { Checkbox, RadioGroup } from '@yosefbeder/design-system/components';
 import { Container, Header } from './shared-components';
-import { turnToAnswer } from '../../utils';
 
-const MultipleChoice = ({
-	id,
-	type,
-	number,
-	title,
-	description,
-	tags,
-	hint,
-	options,
-	onChange,
-}) => {
-	const [state, setState] = useState(turnToAnswer({ id, type, options }));
-
-	useEffect(() => {
-		onChange(state);
-	}, [state]);
-
+const MultipleChoice = ({ number, title, description, tags, hint, fields }) => {
 	return (
 		<Container>
 			<Header
@@ -29,54 +11,20 @@ const MultipleChoice = ({
 				tags={tags}
 				hint={hint}
 			/>
-			{options.filter(({ correct }) => correct).length === 1 ? (
+			{fields.filter(({ correct }) => correct).length === 1 ? (
 				<RadioGroup
-					options={options}
-					onChange={value =>
-						setState(prev => {
-							let index = prev.fields.findIndex(field => field.value === value);
-							return {
-								...prev,
-								fields: [
-									...prev.fields
-										.slice(0, index)
-										.map(field => ({ ...field, selected: false })),
-									{
-										...prev.fields[index],
-										selected: !prev.fields[index].selected,
-									},
-									...prev.fields
-										.slice(index + 1)
-										.map(field => ({ ...field, selected: false })),
-								],
-							};
-						})
-					}
+					options={fields.map(({ label, value }) => ({ label, value }))}
+					value={fields.find(field => field.selected)?.value}
+					onChange={value => console.log(value)}
 				/>
 			) : (
-				options.map(option => (
+				fields.map(field => (
 					<Checkbox
-						key={option.value}
-						checked={option.selected}
-						{...option}
-						onChange={value => {
-							setState(prev => {
-								let index = prev.fields.findIndex(
-									field => field.value === value.target.value,
-								);
-								return {
-									...prev,
-									fields: [
-										...prev.fields.slice(0, index),
-										{
-											...prev.fields[index],
-											selected: !prev.fields[index].selected,
-										},
-										...prev.fields.slice(index + 1),
-									],
-								};
-							});
-						}}
+						key={field.value}
+						label={field.label}
+						value={field.value}
+						checked={field.selected}
+						onChange={value => console.log(value)}
 					/>
 				))
 			)}

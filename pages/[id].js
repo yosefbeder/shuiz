@@ -1,11 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import DUMMY_DATA from '../dummy-data.json';
 import { H2, P1, P2 } from '@yosefbeder/design-system/typography';
-import {
-	TrueFalse,
-	MultipleChoice,
-	FillInTheBlanks,
-} from '../components/Question';
+import Question from '../components/Question';
 import { ButtonsGroup } from '../components';
 import { Button } from '@yosefbeder/design-system/components';
 import {
@@ -69,8 +65,8 @@ const evalScore = answers => {
 };
 
 const Quiz = ({ id, title, description, questions }) => {
-	const answers = useRef(questions.map(question => turnToAnswer(question)));
-	const [score, setScore] = useState();
+	const [answers, setAnswers] = useState(() => questions.map(turnToAnswer));
+	const score = useState();
 
 	useEffect(() => {
 		hljs.highlightAll();
@@ -81,44 +77,16 @@ const Quiz = ({ id, title, description, questions }) => {
 			<P2>{id}</P2>
 			<H2>{title}</H2>
 			<P1>{description}</P1>
-			{questions.map((question, index) => {
-				switch (question.type) {
-					case 'true-false':
-						return (
-							<TrueFalse
-								key={question.id}
-								number={index + 1}
-								{...question}
-								onChange={state => (answers.current[index] = state)}
-							/>
-						);
-					case 'multiple-choice':
-						return (
-							<MultipleChoice
-								key={question.id}
-								number={index + 1}
-								{...question}
-								onChange={state => (answers.current[index] = state)}
-							/>
-						);
-					case 'fill-in-the-blanks':
-						return (
-							<FillInTheBlanks
-								key={question.id}
-								number={index + 1}
-								{...question}
-								onChange={state => (answers.current[index] = state)}
-							/>
-						);
-				}
-			})}
-			{score && (
+			{answers.map(answer => (
+				<Question key={answer.id} {...answer} />
+			))}
+			{/* {score && (
 				<Summary
 					score={score}
 					answers={answers.current}
 					questions={questions}
 				/>
-			)}
+			)} */}
 			<ButtonsGroup>
 				<Button
 					leftIcon={<CheckIcon size={20} />}
