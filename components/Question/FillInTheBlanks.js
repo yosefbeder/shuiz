@@ -16,6 +16,7 @@ const FillInTheBlanks = ({
 	tags,
 	hint,
 	fields,
+	onChange,
 }) => {
 	return (
 		<Container>
@@ -27,8 +28,13 @@ const FillInTheBlanks = ({
 				hint={hint}
 			/>
 			<Form>
-				{fields.map(({ answer }, index) => (
-					<Input key={index} placeholder={`(${index + 1})`} value={answer} />
+				{fields.map(({ answer, position }, index) => (
+					<Input
+						key={index}
+						placeholder={`(${index + 1})`}
+						value={answer}
+						onChange={e => onChange({ position, answer: e.target.value })}
+					/>
 				))}
 			</Form>
 		</Container>

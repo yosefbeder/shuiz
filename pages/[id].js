@@ -1,7 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 import DUMMY_DATA from '../dummy-data.json';
 import { H2, P1, P2 } from '@yosefbeder/design-system/typography';
-import Question from '../components/Question';
+import {
+	TrueFalse,
+	MultipleChoice,
+	FillInTheBlanks,
+} from '../components/Question';
 import { ButtonsGroup } from '../components';
 import { Button } from '@yosefbeder/design-system/components';
 import {
@@ -64,9 +68,76 @@ const evalScore = answers => {
 	return [points, totalPoints];
 };
 
+const Action = { INITIALIZE: 0, CHANGE: 1 };
+
+const reducer = (state, action) => {
+	if (action.type === Action.INITIALIZE) {
+		return action.payload;
+	}
+
+	if (action.type === Action.CHANGE) {
+		const index = state.findIndex(answer => answer.id === action.payload.id);
+
+		if (state[index].type === 'true-false') {
+			return [
+				...state.slice(0, index),
+				{ ...state[index], answer: action.payload.answer },
+				...state.slice(index + 1),
+			];
+		}
+		if (state[index].type === 'multiple-choice') {
+			const singleAnswer =
+				state[index].fields.filter(field => field.correct).length === 1;
+
+			if (!singleAnswer) {
+				return [
+					...state.slice(0, index),
+					{
+						...state[index],
+						fields: state[index].fields.map(field =>
+							field.value == action.payload.value
+								? { ...field, selected: !field.selected }
+								: field,
+						),
+					},
+					...state.slice(index + 1),
+				];
+			} else {
+				return [
+					...state.slice(0, index),
+					{
+						...state[index],
+						fields: state[index].fields.map(field =>
+							field.value === action.payload.value
+								? { ...field, selected: true }
+								: { ...field, selected: false },
+						),
+					},
+					...state.slice(index + 1),
+				];
+			}
+		}
+		if (state[index].type === 'fill-in-the-blanks') {
+			return [
+				...state.slice(0, index),
+				{
+					...state[index],
+					fields: state[index].fields.map(field =>
+						field.position === action.payload.position
+							? { ...field, answer: action.payload.answer }
+							: field,
+					),
+				},
+				...state.slice(index + 1),
+			];
+		}
+	}
+
+	return state;
+};
+
 const Quiz = ({ id, title, description, questions }) => {
-	const [answers, setAnswers] = useState(() => questions.map(turnToAnswer));
-	const score = useState();
+	const [answers, dispatch] = useReducer(reducer, questions.map(turnToAnswer));
 
 	useEffect(() => {
 		hljs.highlightAll();
@@ -77,16 +148,46 @@ const Quiz = ({ id, title, description, questions }) => {
 			<P2>{id}</P2>
 			<H2>{title}</H2>
 			<P1>{description}</P1>
-			{answers.map(answer => (
-				<Question key={answer.id} {...answer} />
-			))}
-			{/* {score && (
-				<Summary
-					score={score}
-					answers={answers.current}
-					questions={questions}
-				/>
-			)} */}
+			{answers.map(({ id, type, ...props }) => {
+				switch (type) {
+					case 'true-false':
+						return (
+							<TrueFalse
+								key={id}
+								{...props}
+								onChange={answer =>
+									dispatch({
+										type: Action.CHANGE,
+										payload: { id, type, answer },
+									})
+								}
+							/>
+						);
+					case 'multiple-choice':
+						return (
+							<MultipleChoice
+								key={id}
+								{...props}
+								onChange={value =>
+									dispatch({ type: Action.CHANGE, payload: { id, value } })
+								}
+							/>
+						);
+					case 'fill-in-the-blanks':
+						return (
+							<FillInTheBlanks
+								key={id}
+								{...props}
+								onChange={({ position, answer }) =>
+									dispatch({
+										type: Action.CHANGE,
+										payload: { id, position, answer },
+									})
+								}
+							/>
+						);
+				}
+			})}
 			<ButtonsGroup>
 				<Button
 					leftIcon={<CheckIcon size={20} />}
@@ -100,15 +201,10 @@ const Quiz = ({ id, title, description, questions }) => {
 							setScore(score);
 						}
 					}}
-					disabled={score != undefined}
 				>
 					Check
 				</Button>
-				<Button
-					variant="secondary"
-					leftIcon={<ForkIcon size={20} />}
-					disabled={score == undefined}
-				>
+				<Button variant="secondary" leftIcon={<ForkIcon size={20} />}>
 					Fork
 				</Button>
 			</ButtonsGroup>

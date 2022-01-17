@@ -41,7 +41,15 @@ const FalseButton = styled(Button)`
 	}
 `;
 
-const TrueFalse = ({ number, title, description, tags, hint, answer }) => {
+const TrueFalse = ({
+	number,
+	title,
+	description,
+	tags,
+	hint,
+	answer,
+	onChange,
+}) => {
 	return (
 		<Container>
 			<Header
@@ -58,8 +66,18 @@ const TrueFalse = ({ number, title, description, tags, hint, answer }) => {
 				</P2>
 			)}
 			<ButtonsGroup>
-				<TrueButton leftIcon={<TrueIcon size={20} />}>True</TrueButton>
-				<FalseButton leftIcon={<FalseIcon size={20} />}>False</FalseButton>
+				<TrueButton
+					leftIcon={<TrueIcon size={20} />}
+					onClick={() => onChange(true)}
+				>
+					True
+				</TrueButton>
+				<FalseButton
+					leftIcon={<FalseIcon size={20} />}
+					onClick={() => onChange(false)}
+				>
+					False
+				</FalseButton>
 			</ButtonsGroup>
 		</Container>
 	);
