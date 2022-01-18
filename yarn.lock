@@ -331,9 +331,9 @@
   integrity sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==
 
 "@yosefbeder/design-system@^2.0.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@yosefbeder/design-system/-/design-system-2.1.0.tgz#4bb45b594a0d2e124cc2bbd99f90557a77b92718"
-  integrity sha512-cQaUa37YTRqk3m3zfV9W3UN0UR64OVhivnxFnXRPfwqxR4mLNFmHdARQNQ7xJiVqWZyC56O92L7+2XJjfC0cQQ==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@yosefbeder/design-system/-/design-system-2.2.0.tgz#36c8faadffd7ef4ce899b335cf3018bb9ce31cc5"
+  integrity sha512-HIcY/yVRHAerwbxLray7o5CWgxBjHU85ohmLmqmYvbCNecwrnvy43eSfmK4IorDnTsl+i1r/FWBtH47DPWUzLg==
 
 acorn@8.5.0:
   version "8.5.0"

@@ -16,6 +16,7 @@ const FillInTheBlanks = ({
 	tags,
 	hint,
 	fields,
+	disabled,
 	onChange,
 }) => {
 	return (
@@ -33,6 +34,7 @@ const FillInTheBlanks = ({
 						key={index}
 						placeholder={`(${index + 1})`}
 						value={answer}
+						disabled={disabled}
 						onChange={e => onChange({ position, answer: e.target.value })}
 					/>
 				))}

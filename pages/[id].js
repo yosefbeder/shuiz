@@ -30,106 +30,95 @@ export const getStaticProps = ({ params: { id } }) => {
 	};
 };
 
-const evalScore = answers => {
-	let points = answers.reduce((acc, answer) => {
-		switch (answer.type) {
-			case 'true-false':
-				return acc + answer.answer !== undefined
-					? answer.answer === answer.correctAnswer
-						? 1
-						: 0
-					: 0;
-			case 'multiple-choice':
-				return (
-					acc +
-					answer.fields.filter(field => field.correct && field.selected).length
-				);
-			case 'fill-in-the-blanks':
-				return (
-					acc +
-					answer.fields.filter(field =>
-						field.correctAnswers.includes(field.answer),
-					).length
-				);
-		}
-	}, 0);
+const Action = { INITIALIZE: 0, RESTORE: 1, SOLVE: 2, CHANGE: 3 };
 
-	let totalPoints = answers.reduce((acc, answer) => {
-		switch (answer.type) {
-			case 'true-false':
-				return acc + 1;
-			case 'multiple-choice':
-				return acc + answer.fields.filter(field => field.correct).length;
-			case 'fill-in-the-blanks':
-				return acc + answer.fields.length;
-		}
-	}, 0);
-
-	return [points, totalPoints];
-};
-
-const Action = { INITIALIZE: 0, CHANGE: 1 };
+const Status = { NOT_INITIALIZED: 0, NOT_SOLVED: 1, SOLVED: 2 };
 
 const reducer = (state, action) => {
 	if (action.type === Action.INITIALIZE) {
-		return action.payload;
+		return { status: Status.NOT_SOLVED, answers: action.payload };
 	}
 
-	if (action.type === Action.CHANGE) {
-		const index = state.findIndex(answer => answer.id === action.payload.id);
+	if (action.type === Action.RESTORE) {
+		return { status: Status.SOLVED, answers: action.payload };
+	}
 
-		if (state[index].type === 'true-false') {
-			return [
-				...state.slice(0, index),
-				{ ...state[index], answer: action.payload.answer },
-				...state.slice(index + 1),
-			];
-		}
-		if (state[index].type === 'multiple-choice') {
-			const singleAnswer =
-				state[index].fields.filter(field => field.correct).length === 1;
+	if (action.type === Action.SOLVE) {
+		return { ...state, status: Status.SOLVED };
+	}
 
-			if (!singleAnswer) {
-				return [
-					...state.slice(0, index),
-					{
-						...state[index],
-						fields: state[index].fields.map(field =>
-							field.value == action.payload.value
-								? { ...field, selected: !field.selected }
-								: field,
-						),
-					},
-					...state.slice(index + 1),
-				];
-			} else {
-				return [
-					...state.slice(0, index),
-					{
-						...state[index],
-						fields: state[index].fields.map(field =>
-							field.value === action.payload.value
-								? { ...field, selected: true }
-								: { ...field, selected: false },
-						),
-					},
-					...state.slice(index + 1),
-				];
+	if (state.status === Status.NOT_SOLVED) {
+		if (action.type === Action.CHANGE) {
+			const index = state.answers.findIndex(
+				answer => answer.id === action.payload.id,
+			);
+
+			if (state.answers[index].type === 'true-false') {
+				return {
+					...state,
+					answers: [
+						...state.answers.slice(0, index),
+						{ ...state.answers[index], answer: action.payload.answer },
+						...state.answers.slice(index + 1),
+					],
+				};
 			}
-		}
-		if (state[index].type === 'fill-in-the-blanks') {
-			return [
-				...state.slice(0, index),
-				{
-					...state[index],
-					fields: state[index].fields.map(field =>
-						field.position === action.payload.position
-							? { ...field, answer: action.payload.answer }
-							: field,
-					),
-				},
-				...state.slice(index + 1),
-			];
+			if (state.answers[index].type === 'multiple-choice') {
+				const singleAnswer =
+					state.answers[index].fields.filter(field => field.correct).length ===
+					1;
+
+				if (!singleAnswer) {
+					return {
+						...state,
+						answers: [
+							...state.answers.slice(0, index),
+							{
+								...state.answers[index],
+								fields: state.answers[index].fields.map(field =>
+									field.value == action.payload.value
+										? { ...field, selected: !field.selected }
+										: field,
+								),
+							},
+							...state.answers.slice(index + 1),
+						],
+					};
+				} else {
+					return {
+						...state,
+						answers: [
+							...state.answers.slice(0, index),
+							{
+								...state.answers[index],
+								fields: state.answers[index].fields.map(field =>
+									field.value === action.payload.value
+										? { ...field, selected: true }
+										: { ...field, selected: false },
+								),
+							},
+							...state.answers.slice(index + 1),
+						],
+					};
+				}
+			}
+			if (state.answers[index].type === 'fill-in-the-blanks') {
+				return {
+					...state,
+					answers: [
+						...state.answers.slice(0, index),
+						{
+							...state.answers[index],
+							fields: state.answers[index].fields.map(field =>
+								field.position === action.payload.position
+									? { ...field, answer: action.payload.answer }
+									: field,
+							),
+						},
+						...state.answers.slice(index + 1),
+					],
+				};
+			}
 		}
 	}
 
@@ -137,10 +126,27 @@ const reducer = (state, action) => {
 };
 
 const Quiz = ({ id, title, description, questions }) => {
-	const [answers, dispatch] = useReducer(reducer, questions.map(turnToAnswer));
+	const [state, dispatch] = useReducer(reducer, {
+		status: Status.NOT_INITIALIZED,
+		answers: null,
+	});
 
 	useEffect(() => {
 		hljs.highlightAll();
+
+		let localStorageAnswers = localStorage.getItem('answers');
+
+		if (localStorageAnswers) {
+			dispatch({
+				type: Action.RESTORE,
+				payload: JSON.parse(localStorageAnswers),
+			});
+		} else {
+			dispatch({
+				type: Action.INITIALIZE,
+				payload: questions.map(turnToAnswer),
+			});
+		}
 	}, []);
 
 	return (
@@ -148,46 +154,53 @@ const Quiz = ({ id, title, description, questions }) => {
 			<P2>{id}</P2>
 			<H2>{title}</H2>
 			<P1>{description}</P1>
-			{answers.map(({ id, type, ...props }) => {
-				switch (type) {
-					case 'true-false':
-						return (
-							<TrueFalse
-								key={id}
-								{...props}
-								onChange={answer =>
-									dispatch({
-										type: Action.CHANGE,
-										payload: { id, type, answer },
-									})
-								}
-							/>
-						);
-					case 'multiple-choice':
-						return (
-							<MultipleChoice
-								key={id}
-								{...props}
-								onChange={value =>
-									dispatch({ type: Action.CHANGE, payload: { id, value } })
-								}
-							/>
-						);
-					case 'fill-in-the-blanks':
-						return (
-							<FillInTheBlanks
-								key={id}
-								{...props}
-								onChange={({ position, answer }) =>
-									dispatch({
-										type: Action.CHANGE,
-										payload: { id, position, answer },
-									})
-								}
-							/>
-						);
-				}
-			})}
+			{state.status !== Status.NOT_INITIALIZED &&
+				state.answers.map(({ id, type, ...props }) => {
+					switch (type) {
+						case 'true-false':
+							return (
+								<TrueFalse
+									key={id}
+									disabled={state.status !== Status.NOT_SOLVED}
+									{...props}
+									onChange={answer =>
+										dispatch({
+											type: Action.CHANGE,
+											payload: { id, type, answer },
+										})
+									}
+								/>
+							);
+						case 'multiple-choice':
+							return (
+								<MultipleChoice
+									key={id}
+									disabled={state.status !== Status.NOT_SOLVED}
+									{...props}
+									onChange={value =>
+										dispatch({ type: Action.CHANGE, payload: { id, value } })
+									}
+								/>
+							);
+						case 'fill-in-the-blanks':
+							return (
+								<FillInTheBlanks
+									key={id}
+									disabled={state.status !== Status.NOT_SOLVED}
+									{...props}
+									onChange={({ position, answer }) =>
+										dispatch({
+											type: Action.CHANGE,
+											payload: { id, position, answer },
+										})
+									}
+								/>
+							);
+					}
+				})}
+
+			{state.status === Status.SOLVED && <Summary answers={state.answers} />}
+
 			<ButtonsGroup>
 				<Button
 					leftIcon={<CheckIcon size={20} />}
@@ -197,14 +210,19 @@ const Quiz = ({ id, title, description, questions }) => {
 						);
 
 						if (answer && answer.trim() === 'SURE') {
-							const score = evalScore(answers.current);
-							setScore(score);
+							localStorage.setItem('answers', JSON.stringify(state.answers));
+							dispatch({ type: Action.SOLVE });
 						}
 					}}
+					disabled={state.status !== Status.NOT_SOLVED}
 				>
 					Check
 				</Button>
-				<Button variant="secondary" leftIcon={<ForkIcon size={20} />}>
+				<Button
+					variant="secondary"
+					leftIcon={<ForkIcon size={20} />}
+					disabled={state.status !== Status.SOLVED}
+				>
 					Fork
 				</Button>
 			</ButtonsGroup>

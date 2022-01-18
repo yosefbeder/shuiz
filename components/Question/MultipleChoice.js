@@ -8,6 +8,7 @@ const MultipleChoice = ({
 	tags,
 	hint,
 	fields,
+	disabled,
 	onChange,
 }) => {
 	return (
@@ -24,6 +25,7 @@ const MultipleChoice = ({
 					options={fields.map(({ label, value }) => ({ label, value }))}
 					value={fields.find(field => field.selected)?.value}
 					onChange={value => onChange(value)}
+					disabled={disabled}
 				/>
 			) : (
 				fields.map(field => (
@@ -33,6 +35,7 @@ const MultipleChoice = ({
 						value={field.value}
 						checked={field.selected}
 						onChange={() => onChange(field.value)}
+						disabled={disabled}
 					/>
 				))
 			)}

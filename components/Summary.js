@@ -3,6 +3,44 @@ import { H4, Ol, P1, P2, Ul } from '@yosefbeder/design-system/typography';
 import styled from 'styled-components';
 import { getTitleWithBlanks } from '../utils';
 
+const evalScore = answers => {
+	let points = answers.reduce((acc, answer) => {
+		switch (answer.type) {
+			case 'true-false':
+				return acc + answer.answer !== undefined
+					? answer.answer === answer.correctAnswer
+						? 1
+						: 0
+					: 0;
+			case 'multiple-choice':
+				return (
+					acc +
+					answer.fields.filter(field => field.correct && field.selected).length
+				);
+			case 'fill-in-the-blanks':
+				return (
+					acc +
+					answer.fields.filter(field =>
+						field.correctAnswers.includes(field.answer),
+					).length
+				);
+		}
+	}, 0);
+
+	let totalPoints = answers.reduce((acc, answer) => {
+		switch (answer.type) {
+			case 'true-false':
+				return acc + 1;
+			case 'multiple-choice':
+				return acc + answer.fields.filter(field => field.correct).length;
+			case 'fill-in-the-blanks':
+				return acc + answer.fields.length;
+		}
+	}, 0);
+
+	return [points, totalPoints];
+};
+
 const Container = styled.section`
 	background-color: var(--color-blue-50);
 	padding: var(--space-2) var(--space-4);
@@ -58,7 +96,9 @@ const FillInTheBlanksSummary = props => {
 const getEmoji = percentage =>
 	percentage > 0.8 ? '👌' : percentage > 0.5 ? '👍' : '👎';
 
-const Summary = ({ score, questions, answers }) => {
+const Summary = ({ answers }) => {
+	const score = evalScore(answers);
+
 	return (
 		<Container>
 			<H4>
@@ -66,11 +106,6 @@ const Summary = ({ score, questions, answers }) => {
 			</H4>
 			<Ol>
 				{answers.map((answer, index) => {
-					const title =
-						answer.type === 'fill-in-the-blanks'
-							? getTitleWithBlanks(questions[index])
-							: questions[index].title;
-
 					let isTrue;
 
 					switch (answer.type) {
@@ -94,7 +129,7 @@ const Summary = ({ score, questions, answers }) => {
 					return (
 						<li key={answer.id}>
 							<P1>
-								{title} {isTrue ? '👌' : '👎'}
+								{answer.title} {isTrue ? '👌' : '👎'}
 							</P1>
 							{answer.type === 'multiple-choice' && !isTrue && (
 								<MultipleChoiceSummary {...answer} />

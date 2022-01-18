@@ -21,6 +21,21 @@ const TrueButton = styled(Button)`
 			border-color: var(--color-green-600);
 		}
 	}
+
+	&:disabled {
+		background-color: var(--color-green-300);
+		border-color: var(--color-green-300);
+
+		&:hover {
+			background-color: var(--color-green-400);
+			border-color: var(--color-green-400);
+		}
+
+		&:active {
+			background-color: var(--color-green-500);
+			border-color: var(--color-green-500);
+		}
+	}
 `;
 
 const FalseButton = styled(Button)`
@@ -39,6 +54,21 @@ const FalseButton = styled(Button)`
 			border-color: var(--color-red-600);
 		}
 	}
+
+	&:disabled {
+		background-color: var(--color-red-300);
+		border-color: var(--color-red-300);
+
+		&:hover {
+			background-color: var(--color-red-400);
+			border-color: var(--color-red-400);
+		}
+
+		&:active {
+			background-color: var(--color-red-500);
+			border-color: var(--color-red-500);
+		}
+	}
 `;
 
 const TrueFalse = ({
@@ -48,6 +78,7 @@ const TrueFalse = ({
 	tags,
 	hint,
 	answer,
+	disabled,
 	onChange,
 }) => {
 	return (
@@ -68,12 +99,14 @@ const TrueFalse = ({
 			<ButtonsGroup>
 				<TrueButton
 					leftIcon={<TrueIcon size={20} />}
+					disabled={disabled}
 					onClick={() => onChange(true)}
 				>
 					True
 				</TrueButton>
 				<FalseButton
 					leftIcon={<FalseIcon size={20} />}
+					disabled={disabled}
 					onClick={() => onChange(false)}
 				>
 					False
