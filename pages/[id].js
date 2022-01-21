@@ -134,7 +134,7 @@ const Quiz = ({ id, title, description, questions }) => {
 	useEffect(() => {
 		hljs.highlightAll();
 
-		let localStorageAnswers = localStorage.getItem('answers');
+		let localStorageAnswers = localStorage.getItem(`answers-${id}`);
 
 		if (localStorageAnswers) {
 			dispatch({
@@ -210,7 +210,10 @@ const Quiz = ({ id, title, description, questions }) => {
 						);
 
 						if (answer && answer.trim() === 'SURE') {
-							localStorage.setItem('answers', JSON.stringify(state.answers));
+							localStorage.setItem(
+								`answers-${id}`,
+								JSON.stringify(state.answers),
+							);
 							dispatch({ type: Action.SOLVE });
 						}
 					}}
