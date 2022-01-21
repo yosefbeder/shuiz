@@ -64,12 +64,12 @@ const reducer = (state, action) => {
 				};
 			}
 			if (state.answers[index].type === 'multiple-choice') {
-				const singleAnswer =
-					state.answers[index].fields.filter(field => field.correct).length ===
-					1;
+				const answersN = state.answers[index].fields.filter(
+					field => field.correct,
+				).length;
 
-				if (!singleAnswer) {
-					return {
+				if (answersN > 1) {
+					let nextState = {
 						...state,
 						answers: [
 							...state.answers.slice(0, index),
@@ -84,6 +84,12 @@ const reducer = (state, action) => {
 							...state.answers.slice(index + 1),
 						],
 					};
+
+					let selectedAnswersN = nextState.answers[index].fields.filter(
+						field => field.selected,
+					).length;
+
+					return answersN >= selectedAnswersN ? nextState : state;
 				} else {
 					return {
 						...state,
